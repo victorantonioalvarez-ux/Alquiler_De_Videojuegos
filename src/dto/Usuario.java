@@ -16,10 +16,10 @@ public class Usuario {
     private final String apellido1;
     private final String apellido2;
     private final String dni;
-    private final String telefono;
+    private final int telefono;
     private final Date fechaRegistro;
 
-    public Usuario(String nombre, String apellido1, String apellido2, String dni, String telefono, Date dataRegistro) {
+    public Usuario(String nombre, String apellido1, String apellido2, String dni, int telefono, Date dataRegistro) {
         this.nombre = nombre;
         this.apellido1 = apellido1;
         this.apellido2 = apellido2;
@@ -44,7 +44,7 @@ public class Usuario {
         return dni;
     }
 
-    public String getTelefono() {
+    public int getTelefono() {
         return telefono;
     }
 

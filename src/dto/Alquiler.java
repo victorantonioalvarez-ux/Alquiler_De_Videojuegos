@@ -11,7 +11,7 @@ import java.util.Date;
  * @author v
  */
 public class Alquiler {
-    public enum Estado { ACTIVO, DEVUELTO, FUERA_DE_PLAZO }
+    public enum Estado { ACTIVO, DEVUELTO, FUERA_TERMINO}
     
     private final int numero;
     private final Usuario usuario;
@@ -69,14 +69,6 @@ public class Alquiler {
         fechaDevuelto = new Date();
     }
     
-    public Estado getEstado() {
-        if (devuelto) {
-            return Estado.DEVUELTO;
-        }
-        if (new Date().after(fechaPrevista)) {
-            return Estado.FUERA_DE_PLAZO;
-        }
-        return Estado.ACTIVO;
-    }
+    
     
 }
