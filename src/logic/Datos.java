@@ -137,4 +137,18 @@ public class Datos {
         a.getJuego().devolverUnidad(a.getPlataforma());
     }
     
+    public void cargarDatosIniciales() {
+        Date hoy = new Date();
+        Usuario laura = new Usuario("Laura", "García", "Pérez", "12345678A", "600111222", hoy);
+        // Orden de las unidades: PS5, Switch 2, Xbox, PC
+        Juego cyberpunk = new Juego("Cyberpunk 2077", "Acción", 0, 0, 1, 2);
+        try {
+            crearUsuario(laura);
+            crearJuego(cyberpunk);
+
+            crearAlquiler(laura, cyberpunk, Plataforma.XBOX, hoy);
+        } catch (AlquilerException e) {
+            System.out.println("Error cargando los datos iniciales: " + e.getMessage());
+        }
+    }
 }
