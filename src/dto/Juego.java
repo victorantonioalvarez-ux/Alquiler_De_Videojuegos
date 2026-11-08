@@ -35,15 +35,15 @@ public class Juego {
         return genero;
     }
 
-    public int[] getUnidades() {
-        return unidades;
+    public int getDisponibles(Plataforma p) {
+        return unidades[p.ordinal()];
     }
     
     public void consumirUnidad(Plataforma p){
         unidades[p.ordinal()]--;
     }
     
-    public void DevolucionUnidad(Plataforma p){
+    public void devolverUnidad(Plataforma p){
         unidades[p.ordinal()]++;
     }
     
