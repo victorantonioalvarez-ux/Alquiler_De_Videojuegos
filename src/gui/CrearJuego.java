@@ -4,9 +4,12 @@
  */
 package gui;
 
+import dto.Juego;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
+import logic.AlquilerException;
 import logic.Datos;
 import validation.Validacion;
 
@@ -19,7 +22,9 @@ public class CrearJuego extends javax.swing.JDialog {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CrearJuego.class.getName());
     private MainScreen mainscreen;
     private Datos datos;
-
+    
+    private JCheckBox[] casillas;
+    private JSpinner[] unidades;
     /**
      * Creates new form CreateUsers
      */
@@ -29,6 +34,12 @@ public class CrearJuego extends javax.swing.JDialog {
         mainscreen = (MainScreen) parent;
         datos = mainscreen.getDatos();
         setTitle("Crear juego");
+        casillas = new JCheckBox[]{jCheckBoxPS5, jCheckBoxSwitch, jCheckBoxXbox, jCheckBoxPC};
+        unidades = new JSpinner[]{jSpinner1, jSpinner3, jSpinner2, jSpinner4};
+        jComboBoxListGeneros.setModel(new DefaultComboBoxModel<>(
+                new String[]{"Acción", "Aventura", "Deportes", "Rol", "Estrategia", "Simulación", "Otros"}));
+        pack();
+        setLocationRelativeTo(parent);
         
     }
 
@@ -63,8 +74,8 @@ public class CrearJuego extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         Cancelar = new javax.swing.JButton();
         jButtonConfirmar = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jTextFieldNombre = new javax.swing.JTextField();
+        jComboBoxListGeneros = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -176,7 +187,9 @@ public class CrearJuego extends javax.swing.JDialog {
         jButtonConfirmar.setText("Confirmar");
         jButtonConfirmar.addActionListener(this::jButtonConfirmarActionPerformed);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jTextFieldNombre.addActionListener(this::jTextFieldNombreActionPerformed);
+
+        jComboBoxListGeneros.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -195,11 +208,11 @@ public class CrearJuego extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel3)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jComboBoxListGeneros, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(20, 20, 20)))
                 .addGap(22, 22, 22))
         );
@@ -212,8 +225,8 @@ public class CrearJuego extends javax.swing.JDialog {
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxListGeneros, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -229,35 +242,68 @@ public class CrearJuego extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jCheckBoxPS5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxPS5ActionPerformed
-        // TODO add your handling code here:
+        actualizarUnidades(0);
     }//GEN-LAST:event_jCheckBoxPS5ActionPerformed
 
     private void jCheckBoxPCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxPCActionPerformed
-        // TODO add your handling code here:
+        actualizarUnidades(0);
     }//GEN-LAST:event_jCheckBoxPCActionPerformed
 
     private void jCheckBoxXboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxXboxActionPerformed
-        // TODO add your handling code here:
+        actualizarUnidades(2);
     }//GEN-LAST:event_jCheckBoxXboxActionPerformed
 
     private void jCheckBoxSwitchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxSwitchActionPerformed
-        // TODO add your handling code here:
+        actualizarUnidades(1);
     }//GEN-LAST:event_jCheckBoxSwitchActionPerformed
 
     private void CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_CancelarActionPerformed
 
     private void jButtonConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmarActionPerformed
-        String error = Validacion.validarNombre("Nombre", jTextField1.getText());
+        String error = Validacion.validarNombre("Nombre", jTextFieldNombre.getText());
         if (error != null) {
             JOptionPane.showMessageDialog(this, error, "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+        int[] n = new int[4];
+        int total = 0;
+        for (int i = 0; i < 4; i++) {
+            if (casillas[i].isSelected()) {
+                n[i] = (Integer) unidades[i].getValue();
+            }
+            total = total + n[i];
+        }
+        if (total == 0) {
+            JOptionPane.showMessageDialog(this, "Debes marcar al menos una plataforma con una o más unidades.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        try {
+            Juego nuevo = new Juego(jTextFieldNombre.getText().trim(), (String) jComboBoxListGeneros.getSelectedItem(), n[0], n[1], n[2], n[3]);
+            datos.crearJuego(nuevo);
+            JOptionPane.showMessageDialog(this, "El juego " + nuevo.getTitulo() + " se ha creado correctamente.",
+                    "Información", JOptionPane.INFORMATION_MESSAGE);
+            dispose();
+        } catch (AlquilerException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
         
     }//GEN-LAST:event_jButtonConfirmarActionPerformed
 
+    private void jTextFieldNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldNombreActionPerformed
+    private void actualizarUnidades(int i) {
+        if (casillas[i].isSelected()) {
+            unidades[i].setEnabled(true);
+            unidades[i].setValue(1);
+        } else {
+            unidades[i].setEnabled(false);
+            unidades[i].setValue(0);
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -270,7 +316,7 @@ public class CrearJuego extends javax.swing.JDialog {
     private javax.swing.JCheckBox jCheckBoxPS5;
     private javax.swing.JCheckBox jCheckBoxSwitch;
     private javax.swing.JCheckBox jCheckBoxXbox;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBoxListGeneros;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -287,6 +333,6 @@ public class CrearJuego extends javax.swing.JDialog {
     private javax.swing.JSpinner jSpinner2;
     private javax.swing.JSpinner jSpinner3;
     private javax.swing.JSpinner jSpinner4;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextFieldNombre;
     // End of variables declaration//GEN-END:variables
 }
