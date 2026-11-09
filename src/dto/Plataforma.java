@@ -9,7 +9,7 @@ package dto;
  * @author v
  */
 public enum Plataforma {
-    PS5("PS5"), SWITCH2("Switch"), XBOX(""), PC("");
+    PS5("PS5"), SWITCH2("Switch"), XBOX("Xbox"), PC("Pc");
     private final String nombre;
     
     Plataforma(String nombre) {
