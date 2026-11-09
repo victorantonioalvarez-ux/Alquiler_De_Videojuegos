@@ -69,6 +69,14 @@ public class Alquiler {
         fechaDevuelto = new Date();
     }
     
-    
+    public Estado getEstado() {
+        if (devuelto) {
+            return Estado.DEVUELTO;
+        }
+        if (new Date().after(fechaPrevista)) {
+            return Estado.FUERA_TERMINO;
+        }
+        return Estado.ACTIVO;
+    }
     
 }
