@@ -34,6 +34,10 @@ public class Datos {
         return juegos;
     }
 
+    public int getSiguienteNumero() {
+        return siguienteNumero;
+    }
+    
     public ArrayList<Alquiler> getAlquilerDescendiente() {
         ArrayList<Alquiler> resultado = new ArrayList<>();
         for (int i = alquileres.size() - 1; i >= 0; i--) {

@@ -4,6 +4,7 @@ import dto.Alquiler;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -137,7 +138,20 @@ public class MainScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItemRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRegistroActionPerformed
-        // TODO add your handling code here:
+        if (datos.getUsuarios().size() == 0) {
+            JOptionPane.showMessageDialog(this, "No hay ningún usuario. Crea uno primero.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (datos.getJuegos().size() == 0) {
+            JOptionPane.showMessageDialog(this, "No hay ningún juego. Crea uno primero.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        RegistrarAlquiler dialogo = new RegistrarAlquiler(this, true);
+        int fila = jTableRegistro.getSelectedRow();
+        if (fila >= 0) {
+            dialogo.preseleccionar(listaAlquileres.get(fila).getUsuario(), listaAlquileres.get(fila).getJuego());
+        }
+        dialogo.setVisible(true);
     }//GEN-LAST:event_jMenuItemRegistroActionPerformed
 
     private void jMenuItemCrearUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCrearUsuarioActionPerformed

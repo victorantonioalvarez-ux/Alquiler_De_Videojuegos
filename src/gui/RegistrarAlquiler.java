@@ -4,6 +4,20 @@
  */
 package gui;
 
+import dto.Alquiler;
+import dto.Juego;
+import dto.Plataforma;
+import dto.Usuario;
+import java.util.Date;
+import javax.swing.ButtonGroup;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
+import logic.AlquilerException;
+import logic.Datos;
+import util.Fechas;
+
 /**
  *
  * @author v
@@ -11,13 +25,27 @@ package gui;
 public class RegistrarAlquiler extends javax.swing.JDialog {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(RegistrarAlquiler.class.getName());
-
+    private MainScreen mainscreen;
+    private Datos datos;
+    
+    private ButtonGroup grupoRadios = new ButtonGroup();
+    private JRadioButton[] radios;
+    private JLabel[] labelsDisponibles;
+    private JLabel[] labelsInfoDisponibles;
+    private Plataforma[] plataformas;
+    private boolean hayPlataformaDisponible = false;
     /**
      * Creates new form RegistrarAlquiler
      */
     public RegistrarAlquiler(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        mainscreen = (MainScreen) parent;
+        datos = mainscreen.getDatos();
+        setTitle("Registrar alquiler");
+        iniciarControles();
+        pack();
+        setLocationRelativeTo(parent);
     }
 
     /**
@@ -46,8 +74,6 @@ public class RegistrarAlquiler extends javax.swing.JDialog {
         jTextFieldNumeroRegistro = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jComboBoxUsuarios = new javax.swing.JComboBox<>();
-        jButtonSeleccionarUsuario = new javax.swing.JButton();
-        jButtonSeleccionarJuego = new javax.swing.JButton();
         jComboBoxJuego = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -159,12 +185,10 @@ public class RegistrarAlquiler extends javax.swing.JDialog {
         jLabel5.setText("Usuario:");
 
         jComboBoxUsuarios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jButtonSeleccionarUsuario.setText("Seleccionar...");
-
-        jButtonSeleccionarJuego.setText("Seleccionar...");
+        jComboBoxUsuarios.addActionListener(this::jComboBoxUsuariosActionPerformed);
 
         jComboBoxJuego.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxJuego.addActionListener(this::jComboBoxJuegoActionPerformed);
 
         jLabel6.setText("Juego elegido:");
 
@@ -187,24 +211,17 @@ public class RegistrarAlquiler extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel5)
-                                .addComponent(jComboBoxUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonSeleccionarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel5)
                         .addComponent(jLabel6)
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addComponent(jLabel4)
                             .addGap(18, 18, 18)
                             .addComponent(jTextFieldNumeroRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(jComboBoxJuego, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(jButtonSeleccionarJuego, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(jSpinnerFechaInicio, javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jLabel8)
-                        .addComponent(jSpinnerFechaDevolucion)))
+                        .addComponent(jSpinnerFechaDevolucion)
+                        .addComponent(jComboBoxUsuarios, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jComboBoxJuego, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -217,15 +234,11 @@ public class RegistrarAlquiler extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jButtonSeleccionarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBoxUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jComboBoxUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6)
                 .addGap(15, 15, 15)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jButtonSeleccionarJuego, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBoxJuego, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jComboBoxJuego, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
@@ -305,8 +318,10 @@ public class RegistrarAlquiler extends javax.swing.JDialog {
         jLabel3.setText("Informacion del juego");
 
         jButtonConfirmar.setText("Confirmar");
+        jButtonConfirmar.addActionListener(this::jButtonConfirmarActionPerformed);
 
         jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.addActionListener(this::jButtonCancelarActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -371,6 +386,133 @@ public class RegistrarAlquiler extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jRadioButton2ActionPerformed
 
+    private void jComboBoxUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxUsuariosActionPerformed
+        actualizarBotonConfirmar();
+    }//GEN-LAST:event_jComboBoxUsuariosActionPerformed
+
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+        dispose();
+    }//GEN-LAST:event_jButtonCancelarActionPerformed
+
+    private void jButtonConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmarActionPerformed
+        int posUsuario = jComboBoxUsuarios.getSelectedIndex();
+        Juego juego = juegoElegido();
+        if (posUsuario < 0 || juego == null) {
+            JOptionPane.showMessageDialog(this, "Debes seleccionar un usuario y un juego.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        Plataforma elegida = null;
+        for (int i = 0; i < radios.length; i++) {
+            if (radios[i].isSelected()) {
+                elegida = plataformas[i];
+            }
+        }
+        if (elegida == null) {
+            JOptionPane.showMessageDialog(this, "Debes seleccionar una plataforma disponible.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        try {
+            Alquiler nuevo = datos.registrarAlquiler(datos.getUsuarios().get(posUsuario), juego, elegida);
+            mainscreen.refrescarTabla();
+            JOptionPane.showMessageDialog(this, "El alquiler " + String.format("%02d", nuevo.getNumero()) + " se ha registrado correctamente.",
+                    "Información", JOptionPane.INFORMATION_MESSAGE);
+            dispose();
+        } catch (AlquilerException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            actualizarPlataformas();
+        }
+    }//GEN-LAST:event_jButtonConfirmarActionPerformed
+
+    private void jComboBoxJuegoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxJuegoActionPerformed
+        actualizarPlataformas();
+    }//GEN-LAST:event_jComboBoxJuegoActionPerformed
+
+    private void iniciarControles() {
+        radios = new JRadioButton[]{jRadioButton1, jRadioButton2, jRadioButton3, jRadioButton4};
+        labelsDisponibles = new JLabel[]{jLabelPCDisponibles, jLabelPS5Disponibles, jLabelXboxDisponibles, jLabelSwitchDisponibles};
+        labelsInfoDisponibles = new JLabel[]{jLabelPCDisponibles1, jLabelPS5Disponibles1, jLabelXboxDisponibles1, jLabelSwitchDisponibles1};
+
+        plataformas = new Plataforma[]{Plataforma.PC, Plataforma.PS5, Plataforma.XBOX, Plataforma.SWITCH2};
+        for (int i = 0; i < radios.length; i++) {
+            grupoRadios.add(radios[i]);
+        }
+
+        jComboBoxUsuarios.setEditable(false);
+        jComboBoxJuego.setEditable(false);
+        jComboBoxUsuarios.removeAllItems();
+        for (int i = 0; i < datos.getUsuarios().size(); i++) {
+            jComboBoxUsuarios.addItem(datos.getUsuarios().get(i).getNombreCompleto());
+        }
+        jComboBoxJuego.removeAllItems();
+        for (int i = 0; i < datos.getJuegos().size(); i++) {
+            jComboBoxJuego.addItem(datos.getJuegos().get(i).getTitulo());
+        }
+
+        jTextFieldNumeroRegistro.setText(String.format("%02d", datos.getSiguienteNumero()));
+        jTextFieldNumeroRegistro.setEnabled(false);
+        Date hoy = new Date();
+        jSpinnerFechaInicio.setEditor(new JSpinner.DateEditor(jSpinnerFechaInicio, "dd/MM/yyyy"));
+        jSpinnerFechaInicio.setValue(hoy);
+        jSpinnerFechaInicio.setEnabled(false);
+        jSpinnerFechaDevolucion.setEditor(new JSpinner.DateEditor(jSpinnerFechaDevolucion, "dd/MM/yyyy"));
+        jSpinnerFechaDevolucion.setValue(Fechas.sumarDias(hoy, Datos.DIAS_ALQUILER));
+        jSpinnerFechaDevolucion.setEnabled(false);
+
+        jComboBoxUsuarios.addActionListener(this::jComboBoxUsuariosActionPerformed);
+        jComboBoxJuego.addActionListener(this::jComboBoxJuegoActionPerformed);
+        jButtonConfirmar.addActionListener(this::jButtonConfirmarActionPerformed);
+        jButtonCancelar.addActionListener(this::jButtonCancelarActionPerformed);
+        actualizarPlataformas();
+    }
+    
+    private Juego juegoElegido() {
+        int pos = jComboBoxJuego.getSelectedIndex();
+        if (pos < 0) {
+            return null;
+        }
+        return datos.getJuegos().get(pos);
+    }
+    
+    private void actualizarPlataformas() {
+        Juego juego = juegoElegido();
+        grupoRadios.clearSelection();
+        boolean hayAlguna = false;
+        jLabelGenero.setText(juego != null ? String.valueOf(juego.getGenero()) : "...");
+        for (int i = 0; i < radios.length; i++) {
+            int unidadesLibres = 0;
+            if (juego != null) {
+                unidadesLibres = juego.getDisponibles(plataformas[i]);
+            }
+            labelsDisponibles[i].setText("(" + unidadesLibres + " Unidades disponibles)");
+            labelsInfoDisponibles[i].setText(String.valueOf(unidadesLibres));
+            if (unidadesLibres > 0) {
+                radios[i].setEnabled(true);
+                if (!hayAlguna) {
+                    radios[i].setSelected(true);
+                    hayAlguna = true;
+                }
+            } else {
+                radios[i].setEnabled(false);
+            }
+        }
+        hayPlataformaDisponible = hayAlguna;
+        actualizarBotonConfirmar();
+    }
+    
+    private void actualizarBotonConfirmar() {
+        jButtonConfirmar.setEnabled(hayPlataformaDisponible && jComboBoxUsuarios.getSelectedIndex() >= 0);
+    }
+    
+    public void preseleccionar(Usuario u, Juego j) {
+        int posUsuario = datos.getUsuarios().indexOf(u);
+        if (posUsuario >= 0) {
+            jComboBoxUsuarios.setSelectedIndex(posUsuario);
+        }
+        int posJuego = datos.getJuegos().indexOf(j);
+        if (posJuego >= 0) {
+            jComboBoxJuego.setSelectedIndex(posJuego);
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -379,8 +521,6 @@ public class RegistrarAlquiler extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonConfirmar;
-    private javax.swing.JButton jButtonSeleccionarJuego;
-    private javax.swing.JButton jButtonSeleccionarUsuario;
     private javax.swing.JComboBox<String> jComboBoxJuego;
     private javax.swing.JComboBox<String> jComboBoxUsuarios;
     private javax.swing.JLabel jLabel1;
