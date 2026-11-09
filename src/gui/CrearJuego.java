@@ -4,6 +4,12 @@
  */
 package gui;
 
+import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import logic.Datos;
+import validation.Validacion;
+
 /**
  *
  * @author v
@@ -11,6 +17,8 @@ package gui;
 public class CrearJuego extends javax.swing.JDialog {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CrearJuego.class.getName());
+    private MainScreen mainscreen;
+    private Datos datos;
 
     /**
      * Creates new form CreateUsers
@@ -18,6 +26,10 @@ public class CrearJuego extends javax.swing.JDialog {
     public CrearJuego(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        mainscreen = (MainScreen) parent;
+        datos = mainscreen.getDatos();
+        setTitle("Crear juego");
+        
     }
 
     /**
@@ -51,8 +63,8 @@ public class CrearJuego extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         Cancelar = new javax.swing.JButton();
         jButtonConfirmar = new javax.swing.JButton();
-        jTextFieldNombre = new javax.swing.JTextField();
-        jTextFieldGenero = new javax.swing.JTextField();
+        jTextField1 = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -164,6 +176,8 @@ public class CrearJuego extends javax.swing.JDialog {
         jButtonConfirmar.setText("Confirmar");
         jButtonConfirmar.addActionListener(this::jButtonConfirmarActionPerformed);
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -181,12 +195,12 @@ public class CrearJuego extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel3)
-                            .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldGenero, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addGap(19, 19, 19)))
+                            .addComponent(jLabel2)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20)))
                 .addGap(22, 22, 22))
         );
         layout.setVerticalGroup(
@@ -197,9 +211,9 @@ public class CrearJuego extends javax.swing.JDialog {
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldGenero, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -235,7 +249,13 @@ public class CrearJuego extends javax.swing.JDialog {
     }//GEN-LAST:event_CancelarActionPerformed
 
     private void jButtonConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmarActionPerformed
-        // TODO add your handling code here:
+        String error = Validacion.validarNombre("Nombre", jTextField1.getText());
+        if (error != null) {
+            JOptionPane.showMessageDialog(this, error, "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        
     }//GEN-LAST:event_jButtonConfirmarActionPerformed
 
     /**
@@ -250,6 +270,7 @@ public class CrearJuego extends javax.swing.JDialog {
     private javax.swing.JCheckBox jCheckBoxPS5;
     private javax.swing.JCheckBox jCheckBoxSwitch;
     private javax.swing.JCheckBox jCheckBoxXbox;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -266,7 +287,6 @@ public class CrearJuego extends javax.swing.JDialog {
     private javax.swing.JSpinner jSpinner2;
     private javax.swing.JSpinner jSpinner3;
     private javax.swing.JSpinner jSpinner4;
-    private javax.swing.JTextField jTextFieldGenero;
-    private javax.swing.JTextField jTextFieldNombre;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
