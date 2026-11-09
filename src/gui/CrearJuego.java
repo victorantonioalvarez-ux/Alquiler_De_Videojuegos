@@ -190,6 +190,7 @@ public class CrearJuego extends javax.swing.JDialog {
         jTextFieldNombre.addActionListener(this::jTextFieldNombreActionPerformed);
 
         jComboBoxListGeneros.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxListGeneros.addActionListener(this::jComboBoxListGenerosActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -295,6 +296,10 @@ public class CrearJuego extends javax.swing.JDialog {
     private void jTextFieldNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNombreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldNombreActionPerformed
+
+    private void jComboBoxListGenerosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxListGenerosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxListGenerosActionPerformed
     private void actualizarUnidades(int i) {
         if (casillas[i].isSelected()) {
             unidades[i].setEnabled(true);

@@ -30,6 +30,17 @@ public class RegistrarAlquiler extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabelGenero = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabelPCDisponibles1 = new javax.swing.JLabel();
+        jLabelPS5Disponibles1 = new javax.swing.JLabel();
+        jLabelXboxDisponibles1 = new javax.swing.JLabel();
+        jLabelSwitchDisponibles1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jTextFieldNumeroRegistro = new javax.swing.JTextField();
@@ -44,6 +55,14 @@ public class RegistrarAlquiler extends javax.swing.JDialog {
         jSpinnerFechaDevolucion = new javax.swing.JSpinner();
         jLabel8 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
+        jRadioButton3 = new javax.swing.JRadioButton();
+        jRadioButton4 = new javax.swing.JRadioButton();
+        jLabelPCDisponibles = new javax.swing.JLabel();
+        jLabelPS5Disponibles = new javax.swing.JLabel();
+        jLabelXboxDisponibles = new javax.swing.JLabel();
+        jLabelSwitchDisponibles = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -54,15 +73,81 @@ public class RegistrarAlquiler extends javax.swing.JDialog {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        jLabel9.setText("Genero:");
+
+        jLabelGenero.setText("...");
+
+        jLabel11.setText("Unidades Disponibles");
+
+        jLabel12.setText("PS5:");
+
+        jLabel13.setText("Xbox:");
+
+        jLabel14.setText("PC:");
+
+        jLabel15.setText("Switch:");
+
+        jLabelPCDisponibles1.setText("0");
+
+        jLabelPS5Disponibles1.setText("0");
+
+        jLabelXboxDisponibles1.setText("0");
+
+        jLabelSwitchDisponibles1.setText("0");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 374, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabelGenero))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel14)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel15))
+                        .addGap(36, 36, 36)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelSwitchDisponibles1)
+                            .addComponent(jLabelXboxDisponibles1)
+                            .addComponent(jLabelPCDisponibles1)
+                            .addComponent(jLabelPS5Disponibles1)))
+                    .addComponent(jLabel11))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabelGenero))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(jLabelPS5Disponibles1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(jLabelXboxDisponibles1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(jLabelPCDisponibles1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15)
+                    .addComponent(jLabelSwitchDisponibles1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -154,15 +239,63 @@ public class RegistrarAlquiler extends javax.swing.JDialog {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        jRadioButton1.setText("PC");
+        jRadioButton1.addActionListener(this::jRadioButton1ActionPerformed);
+
+        jRadioButton2.setText("PS5");
+        jRadioButton2.addActionListener(this::jRadioButton2ActionPerformed);
+
+        jRadioButton3.setText("Xbox");
+
+        jRadioButton4.setText("Switch");
+
+        jLabelPCDisponibles.setText("(0 Unidades disponibles)");
+
+        jLabelPS5Disponibles.setText("(0 Unidades disponibles)");
+
+        jLabelXboxDisponibles.setText("(0 Unidades disponibles)");
+
+        jLabelSwitchDisponibles.setText("(0 Unidades disponibles)");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jRadioButton1)
+                    .addComponent(jRadioButton2)
+                    .addComponent(jRadioButton3)
+                    .addComponent(jRadioButton4))
+                .addGap(28, 28, 28)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelPS5Disponibles)
+                    .addComponent(jLabelPCDisponibles)
+                    .addComponent(jLabelXboxDisponibles)
+                    .addComponent(jLabelSwitchDisponibles))
+                .addContainerGap(153, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 139, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioButton1)
+                    .addComponent(jLabelPCDisponibles))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioButton2)
+                    .addComponent(jLabelPS5Disponibles))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioButton3)
+                    .addComponent(jLabelXboxDisponibles))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioButton4)
+                    .addComponent(jLabelSwitchDisponibles))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         jLabel1.setText("Datos Alquiler");
@@ -230,6 +363,14 @@ public class RegistrarAlquiler extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldNumeroRegistroActionPerformed
 
+    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButton1ActionPerformed
+
+    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -243,6 +384,11 @@ public class RegistrarAlquiler extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> jComboBoxJuego;
     private javax.swing.JComboBox<String> jComboBoxUsuarios;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -250,9 +396,23 @@ public class RegistrarAlquiler extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelGenero;
+    private javax.swing.JLabel jLabelPCDisponibles;
+    private javax.swing.JLabel jLabelPCDisponibles1;
+    private javax.swing.JLabel jLabelPS5Disponibles;
+    private javax.swing.JLabel jLabelPS5Disponibles1;
+    private javax.swing.JLabel jLabelSwitchDisponibles;
+    private javax.swing.JLabel jLabelSwitchDisponibles1;
+    private javax.swing.JLabel jLabelXboxDisponibles;
+    private javax.swing.JLabel jLabelXboxDisponibles1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JRadioButton jRadioButton3;
+    private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JSpinner jSpinnerFechaDevolucion;
     private javax.swing.JSpinner jSpinnerFechaInicio;
     private javax.swing.JTextField jTextFieldNumeroRegistro;
