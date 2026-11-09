@@ -92,6 +92,7 @@ public class MainScreen extends javax.swing.JFrame {
         jMenu1.add(jMenuItemRegistro);
 
         jMenuItemDevolver.setText("Devolucion...");
+        jMenuItemDevolver.addActionListener(this::jMenuItemDevolverActionPerformed);
         jMenu1.add(jMenuItemDevolver);
 
         jMenuBar1.add(jMenu1);
@@ -208,6 +209,11 @@ public class MainScreen extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jMenuItemBorrarJuegoActionPerformed
+
+    private void jMenuItemDevolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemDevolverActionPerformed
+        DevolverJuego dialogo = new DevolverJuego(this, true);
+        dialogo.setVisible(true);
+    }//GEN-LAST:event_jMenuItemDevolverActionPerformed
     
     private void iniciarTabla() {
         modeloTabla = new DefaultTableModel();

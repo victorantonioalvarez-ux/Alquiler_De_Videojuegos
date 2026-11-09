@@ -4,6 +4,14 @@
  */
 package gui;
 
+import dto.Alquiler;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import logic.AlquilerException;
+import logic.Datos;
+import util.Fechas;
+
 /**
  *
  * @author v
@@ -11,13 +19,27 @@ package gui;
 public class DevolverJuego extends javax.swing.JDialog {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DevolverJuego.class.getName());
-
+    
+    private MainScreen mainscreen;
+    private Datos datos;
+    private ArrayList<Alquiler> listaAlquileres = new ArrayList<>();
+    private DefaultTableModel modeloTabla;
+    
     /**
      * Creates new form DevolJuego
      */
     public DevolverJuego(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        mainscreen = (MainScreen) parent;
+        datos = mainscreen.getDatos();
+        setTitle("Devolver juego");
+        iniciarTabla();
+        jButtonCerrar.addActionListener(this::jButtonCerrarActionPerformed);
+        jButtonMarcarDevuelto.addActionListener(this::jButtonMarcarDevueltoActionPerformed);
+        refrescarTabla(-1);
+        pack();
+        setLocationRelativeTo(parent);
     }
 
     /**
@@ -64,8 +86,10 @@ public class DevolverJuego extends javax.swing.JDialog {
         jLabelFechaDeInicio.setText("Fecha de inicio");
 
         jButtonMarcarDevuelto.setText("Marcar como devuelto");
+        jButtonMarcarDevuelto.addActionListener(this::jButtonMarcarDevueltoActionPerformed);
 
         jButtonCerrar.setText("Cerrar");
+        jButtonCerrar.addActionListener(this::jButtonCerrarActionPerformed);
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -151,6 +175,79 @@ public class DevolverJuego extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButtonCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCerrarActionPerformed
+        dispose();
+    }//GEN-LAST:event_jButtonCerrarActionPerformed
+
+    private void jButtonMarcarDevueltoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMarcarDevueltoActionPerformed
+        int fila = jTableRegistro.getSelectedRow();
+        if (fila < 0) {
+            JOptionPane.showMessageDialog(this, "Debes seleccionar un alquiler de la lista.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        Alquiler a = listaAlquileres.get(fila);
+        try {
+            datos.devolverAlquiler(a);
+            mainscreen.refrescarTabla();
+            refrescarTabla(fila);
+            JOptionPane.showMessageDialog(this, "El alquiler " + String.format("%02d", a.getNumero()) + " se ha marcado como devuelto.",
+                    "Información", JOptionPane.INFORMATION_MESSAGE);
+        } catch (AlquilerException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButtonMarcarDevueltoActionPerformed
+
+    
+    private void iniciarTabla() {
+        modeloTabla = new DefaultTableModel();
+        modeloTabla.setColumnIdentifiers(new String[]{"Num. registro", "Titulo del juego", "Usuario", "Plataforma", "Fecha inicio"});
+        jTableRegistro.setModel(modeloTabla);
+        jTableRegistro.setDefaultEditor(Object.class, null);
+        jTableRegistro.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mostrarDetalle();
+            }
+        });
+    }
+    
+    private void mostrarDetalle() {
+        int fila = jTableRegistro.getSelectedRow();
+        if (fila < 0) {
+            jLabelJuego.setText(" ");
+            jLabelUsuario.setText(" ");
+            jLabelPlataforma.setText(" ");
+            jLabelFechaDeInicio.setText(" ");
+            jButtonMarcarDevuelto.setEnabled(false);
+            return;
+        }
+        Alquiler a = listaAlquileres.get(fila);
+        jLabelJuego.setText(a.getJuego().getTitulo());
+        jLabelUsuario.setText(a.getUsuario().getNombreCompleto());
+        jLabelPlataforma.setText(a.getPlataforma().toString());
+        jLabelFechaDeInicio.setText(Fechas.formato(a.getFechaInicio()));
+        jButtonMarcarDevuelto.setEnabled(!a.isDevuelto());
+    }
+    
+    private void refrescarTabla(int seleccion) {
+        listaAlquileres = datos.getAlquilerDescendiente();
+        modeloTabla.setRowCount(0);
+        for (int i = 0; i < listaAlquileres.size(); i++) {
+            Alquiler a = listaAlquileres.get(i);
+            String[] fila = new String[5];
+            fila[0] = String.format("%02d", a.getNumero());
+            fila[1] = a.getJuego().getTitulo();
+            fila[2] = a.getUsuario().getNombreCompleto();
+            fila[3] = a.getPlataforma().toString();
+            fila[4] = Fechas.formato(a.getFechaInicio());
+            modeloTabla.addRow(fila);
+        }
+        if (seleccion >= 0 && seleccion < listaAlquileres.size()) {
+            jTableRegistro.setRowSelectionInterval(seleccion, seleccion);
+        }
+        mostrarDetalle();
+    }
+    
     /**
      * @param args the command line arguments
      */
