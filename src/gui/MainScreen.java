@@ -1,5 +1,7 @@
 package gui;
 
+import logic.Datos;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -12,7 +14,13 @@ package gui;
 public class MainScreen extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainScreen.class.getName());
-
+    
+    private Datos datos = new Datos();
+    
+    public Datos getDatos() {
+        return datos;
+    }
+    
     /**
      * Creates new form MainScreen
      */
@@ -20,6 +28,7 @@ public class MainScreen extends javax.swing.JFrame {
     
     public MainScreen() {
         initComponents();
+        setTitle("Gestión de alquiler de videojuegos");
     }
 
     /**
@@ -73,6 +82,7 @@ public class MainScreen extends javax.swing.JFrame {
         jMenu2.setText("Usuario");
 
         jMenuItemCrearUsuario.setText("Crear...");
+        jMenuItemCrearUsuario.addActionListener(this::jMenuItemCrearUsuarioActionPerformed);
         jMenu2.add(jMenuItemCrearUsuario);
 
         jMenuItemBorrarUsuario.setText("Borrar...");
@@ -83,6 +93,7 @@ public class MainScreen extends javax.swing.JFrame {
         jMenu3.setText("Juego");
 
         jMenuItemCrearJuego.setText("Crear...");
+        jMenuItemCrearJuego.addActionListener(this::jMenuItemCrearJuegoActionPerformed);
         jMenu3.add(jMenuItemCrearJuego);
 
         jMenuItemBorrarJuego.setText("Borrar");
@@ -115,6 +126,16 @@ public class MainScreen extends javax.swing.JFrame {
     private void jMenuItemRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRegistroActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItemRegistroActionPerformed
+
+    private void jMenuItemCrearUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCrearUsuarioActionPerformed
+        CrearUsuario dialogo = new CrearUsuario(this, true);
+        dialogo.setVisible(true);
+    }//GEN-LAST:event_jMenuItemCrearUsuarioActionPerformed
+
+    private void jMenuItemCrearJuegoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCrearJuegoActionPerformed
+        CrearJuego dialogo = new CrearJuego(this, true);
+        dialogo.setVisible(true);
+    }//GEN-LAST:event_jMenuItemCrearJuegoActionPerformed
 
     /**
      * @param args the command line arguments
