@@ -246,7 +246,7 @@ public class CrearJuego extends javax.swing.JDialog {
     }//GEN-LAST:event_jCheckBoxPS5ActionPerformed
 
     private void jCheckBoxPCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxPCActionPerformed
-        actualizarUnidades(0);
+        actualizarUnidades(3);
     }//GEN-LAST:event_jCheckBoxPCActionPerformed
 
     private void jCheckBoxXboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxXboxActionPerformed

@@ -1,6 +1,14 @@
 package gui;
 
+import dto.Alquiler;
+import java.awt.Color;
+import java.awt.Component;
+import java.util.ArrayList;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import logic.Datos;
+import util.Fechas;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -16,7 +24,8 @@ public class MainScreen extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainScreen.class.getName());
     
     private Datos datos = new Datos();
-    
+    private ArrayList<Alquiler> listaAlquileres = new ArrayList<>();
+    private DefaultTableModel modeloTabla;
     public Datos getDatos() {
         return datos;
     }
@@ -28,7 +37,11 @@ public class MainScreen extends javax.swing.JFrame {
     
     public MainScreen() {
         initComponents();
+        datos.cargarDatosIniciales();
         setTitle("Gestión de alquiler de videojuegos");
+        iniciarTabla();
+        
+        refrescarTabla();
     }
 
     /**
@@ -136,7 +149,54 @@ public class MainScreen extends javax.swing.JFrame {
         CrearJuego dialogo = new CrearJuego(this, true);
         dialogo.setVisible(true);
     }//GEN-LAST:event_jMenuItemCrearJuegoActionPerformed
-
+    
+    private void iniciarTabla() {
+        modeloTabla = new DefaultTableModel();
+        modeloTabla.setColumnIdentifiers(new String[]{"Num. registro", "Titulo del juego", "Usuario", "Plataforma",
+            "Fecha inicio", "Fecha devolucion", "Genero"});
+        jTableRegistro.setModel(modeloTabla);
+        jTableRegistro.setDefaultEditor(Object.class, null);
+        jTableRegistro.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                    boolean hasFocus, int row, int column) {
+                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                Color color = Color.WHITE;
+                if (row < listaAlquileres.size()) {
+                    Alquiler.Estado estado = listaAlquileres.get(row).getEstado();
+                    if (estado == Alquiler.Estado.DEVUELTO) {
+                        color = new Color(180, 235, 180);
+                    } else if (estado == Alquiler.Estado.FUERA_TERMINO) {
+                        color = new Color(250, 175, 175);
+                    }
+                }
+                if (isSelected) {
+                    c.setBackground(color.darker());
+                } else {
+                    c.setBackground(color);
+                }
+                c.setForeground(Color.BLACK);
+                return c;
+            }
+        });
+    }
+    
+    public void refrescarTabla() {
+        listaAlquileres = datos.getAlquilerDescendiente();
+        modeloTabla.setRowCount(0);
+        for (int i = 0; i < listaAlquileres.size(); i++) {
+            Alquiler a = listaAlquileres.get(i);
+            String[] fila = new String[7];
+            fila[0] = String.format("%02d", a.getNumero());
+            fila[1] = a.getJuego().getTitulo();
+            fila[2] = a.getUsuario().getNombreCompleto();
+            fila[3] = a.getPlataforma().toString();
+            fila[4] = Fechas.formato(a.getFechaInicio());
+            fila[5] = Fechas.formato(a.getFechaPrevista());
+            fila[6] = a.getJuego().getGenero();
+            modeloTabla.addRow(fila);
+        }
+    }
     /**
      * @param args the command line arguments
      */
