@@ -4,6 +4,14 @@
  */
 package gui;
 
+import dto.Usuario;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import logic.AlquilerException;
+import logic.Datos;
+import validation.Validacion;
+
 /**
  *
  * @author v
@@ -11,13 +19,26 @@ package gui;
 public class CrearUsuario extends javax.swing.JDialog {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CrearUsuario.class.getName());
-
+    
+    private MainScreen mainscreen;
+    private Datos datos;
     /**
      * Creates new form CreateGame
      */
     public CrearUsuario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
+        mainscreen = (MainScreen) parent;
+        datos = mainscreen.getDatos();
+        setTitle("Crear usuario");
+        
+        jSpinnerFecha.setEditor(new JSpinner.DateEditor(jSpinnerFecha, "dd/MM/yyyy"));
+        jSpinnerFecha.setValue(new Date());
+        jSpinnerFecha.setEnabled(false);
+        jButtonConfirmar.addActionListener(this::jButtonConfirmarActionPerformed);
+        pack();
+        setLocationRelativeTo(parent);
     }
 
     /**
@@ -53,6 +74,7 @@ public class CrearUsuario extends javax.swing.JDialog {
         jTextFieldApellido1.addActionListener(this::jTextFieldApellido1ActionPerformed);
 
         jButtonConfirmar.setText("Confirmar");
+        jButtonConfirmar.addActionListener(this::jButtonConfirmarActionPerformed);
 
         Cancelar.setText("Cancelar");
         Cancelar.addActionListener(this::CancelarActionPerformed);
@@ -147,7 +169,7 @@ public class CrearUsuario extends javax.swing.JDialog {
     }//GEN-LAST:event_jTextFieldApellido1ActionPerformed
 
     private void CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_CancelarActionPerformed
 
     private void jTextFieldDNIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDNIActionPerformed
@@ -157,6 +179,37 @@ public class CrearUsuario extends javax.swing.JDialog {
     private void jTextFieldTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldTelefonoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldTelefonoActionPerformed
+
+    private void jButtonConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmarActionPerformed
+        String error = Validacion.validarNombre("Nombre", jTextFieldNombre.getText());
+        if (error == null) {
+            error = Validacion.validarNombre("Apellido 1", jTextFieldApellido1.getText());
+        }
+        if (error == null) {
+            error = Validacion.validarNombre("Apellido 2", jTextFieldApellido2.getText());
+        }
+        if (error == null && !Validacion.dniValido(jTextFieldDNI.getText())) {
+            error = "El DNI no es válido. Debe tener 8 números y una letra (por ejemplo: 12345678A).";
+        }
+        if (error == null && !Validacion.telefonoValido(jTextFieldTelefono.getText())) {
+            error = "El teléfono debe tener 9 números.";
+        }
+        if (error != null) {
+            JOptionPane.showMessageDialog(this, error, "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        try {
+            Usuario nuevo = new Usuario(jTextFieldNombre.getText().trim(), jTextFieldApellido1.getText().trim(),
+                    jTextFieldApellido2.getText().trim(), jTextFieldDNI.getText().trim().toUpperCase(),
+                    jTextFieldTelefono.getText().trim(), new Date());
+            datos.crearUsuario(nuevo);
+            JOptionPane.showMessageDialog(this, "El usuario " + nuevo.getNombreCompleto() + " se ha creado correctamente.",
+                    "Información", JOptionPane.INFORMATION_MESSAGE);
+            dispose();
+        } catch (AlquilerException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButtonConfirmarActionPerformed
 
     /**
      * @param args the command line arguments
