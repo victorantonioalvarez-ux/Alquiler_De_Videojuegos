@@ -1,6 +1,7 @@
 package gui;
 
 import dto.Alquiler;
+import dto.Usuario;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import logic.AlquilerException;
 import logic.Datos;
 import util.Fechas;
 
@@ -100,6 +102,7 @@ public class MainScreen extends javax.swing.JFrame {
         jMenu2.add(jMenuItemCrearUsuario);
 
         jMenuItemBorrarUsuario.setText("Borrar...");
+        jMenuItemBorrarUsuario.addActionListener(this::jMenuItemBorrarUsuarioActionPerformed);
         jMenu2.add(jMenuItemBorrarUsuario);
 
         jMenuBar1.add(jMenu2);
@@ -163,6 +166,26 @@ public class MainScreen extends javax.swing.JFrame {
         CrearJuego dialogo = new CrearJuego(this, true);
         dialogo.setVisible(true);
     }//GEN-LAST:event_jMenuItemCrearJuegoActionPerformed
+
+    private void jMenuItemBorrarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemBorrarUsuarioActionPerformed
+        if (datos.getUsuarios().size() == 0) {
+            JOptionPane.showMessageDialog(this, "No hay ningún usuario. Crea uno primero.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        Object[] opciones = datos.getUsuarios().toArray();
+        Object elegido = JOptionPane.showInputDialog(this, "Selecciona el usuario que quieres borrar:",
+                "Borrar usuario", JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+        if (elegido == null) {
+            return;
+        }
+        try {
+            datos.borrarUsuario((Usuario) elegido);
+            JOptionPane.showMessageDialog(this, "El usuario " + elegido + " se ha borrado correctamente.",
+                    "Información", JOptionPane.INFORMATION_MESSAGE);
+        } catch (AlquilerException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jMenuItemBorrarUsuarioActionPerformed
     
     private void iniciarTabla() {
         modeloTabla = new DefaultTableModel();
