@@ -141,10 +141,16 @@ public class Datos {
         Date hoy = new Date();
         Usuario laura = new Usuario("Laura", "García", "Pérez", "12345678A", "600111222", hoy);
         Juego cyberpunk = new Juego("Cyberpunk 2077", "Acción", 0, 0, 1, 2);
+        Usuario marc = new Usuario("Marc", "López", "Ruiz", "23456789B", "600333444", hoy);
+        Juego fifa = new Juego("FIFA 25", "Deportes", 2, 1, 0, 0);
         try {
             crearUsuario(laura);
             crearJuego(cyberpunk);
+            crearUsuario(marc);
+            crearJuego(fifa);
+
             crearAlquiler(laura, cyberpunk, Plataforma.XBOX, hoy);
+            crearAlquiler(marc, fifa, Plataforma.PS5, Fechas.sumarDias(hoy, -10));
         } catch (AlquilerException e) {
             System.out.println("Error cargando los datos iniciales: " + e.getMessage());
         }
