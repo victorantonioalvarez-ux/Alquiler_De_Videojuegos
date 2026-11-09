@@ -1,6 +1,7 @@
 package gui;
 
 import dto.Alquiler;
+import dto.Juego;
 import dto.Usuario;
 import java.awt.Color;
 import java.awt.Component;
@@ -114,6 +115,7 @@ public class MainScreen extends javax.swing.JFrame {
         jMenu3.add(jMenuItemCrearJuego);
 
         jMenuItemBorrarJuego.setText("Borrar");
+        jMenuItemBorrarJuego.addActionListener(this::jMenuItemBorrarJuegoActionPerformed);
         jMenu3.add(jMenuItemBorrarJuego);
 
         jMenuBar1.add(jMenu3);
@@ -186,6 +188,26 @@ public class MainScreen extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jMenuItemBorrarUsuarioActionPerformed
+
+    private void jMenuItemBorrarJuegoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemBorrarJuegoActionPerformed
+        if (datos.getJuegos().size() == 0) {
+            JOptionPane.showMessageDialog(this, "No hay ningún juego. Crea uno primero.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        Object[] opciones = datos.getJuegos().toArray();
+        Object elegido = JOptionPane.showInputDialog(this, "Selecciona el juego que quieres borrar:",
+                "Borrar juego", JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+        if (elegido == null) {
+            return;
+        }
+        try {
+            datos.borrarJuego((Juego) elegido);
+            JOptionPane.showMessageDialog(this, "El juego " + elegido + " se ha borrado correctamente.",
+                    "Información", JOptionPane.INFORMATION_MESSAGE);
+        } catch (AlquilerException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jMenuItemBorrarJuegoActionPerformed
     
     private void iniciarTabla() {
         modeloTabla = new DefaultTableModel();
